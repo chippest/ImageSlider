@@ -1,5 +1,5 @@
-const slider = document.querySelector(".slider");
-const images = Array.from(slider.children);
+const imagesCont = document.querySelector(".images");
+const images = Array.from(imagesCont.children);
 
 function updateClasses(direction) {
   if (direction === "left") {

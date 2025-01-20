@@ -1,87 +1,80 @@
-body {
+:root {
+  --height: 20rem;
+  --width: 40rem;
+}
+
+* {
+  padding: 0;
   margin: 0;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
+
+.container {
   height: 100vh;
-  /* background: #000; */
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
-}
-
-.slider-container {
-  position: relative;
-  width: 80%;
-  height: 60%;
   display: flex;
-  justify-content: center;
   align-items: center;
-  /* overflow: hidden; */
-}
-
-.slider {
-  position: relative;
-  width: 50rem;
-  height: 100%;
-  display: flex;
   justify-content: center;
-  align-items: center;
-  transition: transform 0.5s ease;
-}
+  gap: 4rem;
 
-.slider img {
-  position: absolute;
-  width: 35rem;
-  aspect-ratio: 2/1;
-  object-fit: cover;
-  height: auto;
-  transition: all 0.3s;
-  opacity: 0.8;
-  border-radius: 10px;
-  border: 5px solid transparent;
-}
+  button {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 2rem;
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: 10px;
+    aspect-ratio: 1/1;
+    border: none;
+    transition: all 0.3s ease;
+    z-index: 10;
 
-.slider img.center {
-  transform: translateX(0) scale(1.2);
-  z-index: 3;
-  opacity: 1;
-  border: 5px solid black;
-}
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.651);
+    }
+    &:active {
+      filter: drop-shadow(0 0 0.5rem black);
+    }
+  }
 
-.slider img.left {
-  transform: translateX(-50%) scale(0.8);
-  z-index: 2;
-}
+  .slider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 
-.slider img.right {
-  transform: translateX(50%) scale(0.8);
-  z-index: 2;
-}
+    .images {
+      width: var(--width);
+      height: var(--height);
+      padding: 1rem;
+      position: relative;
 
-.slider img.back {
-  transform: scale(0.6);
-  z-index: 1;
-}
+      img {
+        width: var(--width);
+        height: var(--height);
+        border-radius: 10px;
+        object-fit: cover;
+        position: absolute;
+        transition: all 0.3s;
+        border: 5px solid transparent;
 
-.controls {
-  position: absolute;
-  bottom: 10%;
-  display: flex;
-  gap: 20px;
-}
-
-button {
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  font-size: 2rem;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 4;
-  border-radius: 10px;
-  transition: background 0.3s ease;
-}
-
-button:hover {
-  background-color: rgba(0, 0, 0, 0.651);
+        &.center {
+          transform: translateX(0);
+          z-index: 3;
+          opacity: 1;
+          border: 5px solid black;
+        }
+        &.left {
+          transform: translateX(-50%) scale(0.7);
+          z-index: 2;
+        }
+        &.right {
+          transform: translateX(50%) scale(0.7);
+          z-index: 2;
+        }
+        &.back {
+          transform: scale(0.5);
+          z-index: 1;
+        }
+      }
+    }
+  }
 }
