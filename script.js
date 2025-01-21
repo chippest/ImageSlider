@@ -1,6 +1,22 @@
 const imagesCont = document.querySelector(".images");
 const images = Array.from(imagesCont.children);
 
+let currentIndex = 0;
+
+function setInitialClasses() {
+  images.forEach((img, index) => {
+    img.className = "";
+    if (index === currentIndex) img.classList.add("center");
+    else if (index === (currentIndex + 1) % images.length)
+      img.classList.add("right");
+    else if (index === (currentIndex - 1 + images.length) % images.length)
+      img.classList.add("left");
+    else img.classList.add("back");
+  });
+}
+
+setInitialClasses();
+
 const selectorsCont = document.querySelector(".selectors");
 let firstDone = false;
 for (let i = 0; i < images.length; i++) {
@@ -12,45 +28,38 @@ for (let i = 0; i < images.length; i++) {
 }
 const selectors = Array.from(selectorsCont.children);
 
-function updateClasses(direction) {
-  if (direction === "left") {
-    const first = images.shift();
-    images.push(first);
-    const firstSelector = selectors.shift();
-    selectors.push(firstSelector);
-  } else if (direction === "right") {
-    const last = images.pop();
-    images.unshift(last);
-    const lastSelector = selectors.pop();
-    selectors.unshift(lastSelector);
-  }
-
-  images.forEach((img, index) => {
-    img.className = "";
-    if (index === 0) img.classList.add("left");
-    else if (index === 1) img.classList.add("center");
-    else if (index === 2) img.classList.add("right");
-    else img.classList.add("back");
-  });
+function updateClasses(newIndex) {
+  currentIndex = newIndex;
+  setInitialClasses();
   selectors.forEach((selector, index) => {
     selector.classList.remove("selected");
-    if (index === 0) selector.classList.add("selected");
+    if (index === currentIndex) selector.classList.add("selected");
   });
 }
 
 document
   .getElementById("left")
-  .addEventListener("click", () => updateClasses("right"));
+  .addEventListener("click", () =>
+    updateClasses((currentIndex - 1 + images.length) % images.length)
+  );
 document
   .getElementById("right")
-  .addEventListener("click", () => updateClasses("left"));
+  .addEventListener("click", () =>
+    updateClasses((currentIndex + 1) % images.length)
+  );
 
-images.forEach((img) => {
+images.forEach((img, index) => {
   img.addEventListener("click", () => {
     if (img.classList.contains("left")) {
-      updateClasses("right");
+      updateClasses((currentIndex - 1 + images.length) % images.length);
     } else if (img.classList.contains("right")) {
-      updateClasses("left");
+      updateClasses((currentIndex + 1) % images.length);
     }
+  });
+});
+
+selectors.forEach((selector, index) => {
+  selector.addEventListener("click", () => {
+    updateClasses(index);
   });
 });
