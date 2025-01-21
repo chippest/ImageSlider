@@ -3,6 +3,7 @@ const images = Array.from(imagesCont.children);
 
 let currentIndex = 0;
 let autoSlideInterval;
+const popUp = false;
 
 function setInitialClasses() {
   images.forEach((img, index) => {
@@ -65,6 +66,27 @@ images.forEach((img, index) => {
       updateClasses((currentIndex - 1 + images.length) % images.length);
     } else if (img.classList.contains("right")) {
       updateClasses((currentIndex + 1) % images.length);
+    } else if (img.classList.contains("center")) {
+      const popUpDiv = document.createElement("div");
+      popUpDiv.classList.add("popup");
+
+      const popUpImg = document.createElement("img");
+      popUpImg.src = img.src;
+      popUpDiv.appendChild(popUpImg);
+
+      document.body.appendChild(popUpDiv);
+
+      popUpDiv.addEventListener("click", (e) => {
+        if (e.target !== popUpImg) {
+          popUpDiv.classList.add("fade-out");
+          popUpDiv.addEventListener("animationend", () => {
+            document.body.removeChild(popUpDiv);
+            resetAutoSlide();
+          });
+        }
+      });
+
+      clearInterval(autoSlideInterval);
     }
   });
 });
