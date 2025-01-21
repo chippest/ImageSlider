@@ -2,6 +2,7 @@ const imagesCont = document.querySelector(".images");
 const images = Array.from(imagesCont.children);
 
 let currentIndex = 0;
+let autoSlideInterval;
 
 function setInitialClasses() {
   images.forEach((img, index) => {
@@ -35,6 +36,16 @@ function updateClasses(newIndex) {
     selector.classList.remove("selected");
     if (index === currentIndex) selector.classList.add("selected");
   });
+  resetAutoSlide();
+}
+
+function autoSlide() {
+  updateClasses((currentIndex + 1) % images.length);
+}
+
+function resetAutoSlide() {
+  clearInterval(autoSlideInterval);
+  autoSlideInterval = setInterval(autoSlide, 7000);
 }
 
 document
@@ -63,3 +74,5 @@ selectors.forEach((selector, index) => {
     updateClasses(index);
   });
 });
+
+resetAutoSlide();
